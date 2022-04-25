@@ -28,11 +28,11 @@ shellexpand = "2.1.0"
 toml = "0.5.8"
 semver = "1.0.4"
 serde = { version = "1.0.122", features = ["derive"] }
-safecoin-sdk = "~1.9.13"
-safecoin-program = "~1.9.13"
-safecoin-client = "~1.9.13"
-safecoin-cli-config = "~1.9.13"
-safecoin-faucet = "~1.9.13"
+safecoin-sdk = { path = "../../Safecoin/sdk"}
+safecoin-program = {path = "../../Safecoin/sdk/program"}
+safecoin-client = { path = "../../Safecoin/client"}
+safecoin-cli-config = { path = "../../Safecoin/cli-config"}
+safecoin-faucet = { path = "../../Safecoin/faucet"}
 dirs = "3.0"
 heck = "0.3.1"
 flate2 = "1.0.19"
