@@ -18,19 +18,19 @@ use reqwest::blocking::multipart::{Form, Part};
 use reqwest::blocking::Client;
 use semver::{Version, VersionReq};
 use serde::{Deserialize, Serialize};
-use solana_client::rpc_client::RpcClient;
-use solana_client::rpc_config::RpcSendTransactionConfig;
-use solana_program::instruction::{AccountMeta, Instruction};
-use solana_sdk::account_utils::StateMut;
-use solana_sdk::bpf_loader;
-use solana_sdk::bpf_loader_deprecated;
-use solana_sdk::bpf_loader_upgradeable::{self, UpgradeableLoaderState};
-use solana_sdk::commitment_config::CommitmentConfig;
-use solana_sdk::pubkey::Pubkey;
-use solana_sdk::signature::Keypair;
-use solana_sdk::signature::Signer;
-use solana_sdk::sysvar;
-use solana_sdk::transaction::Transaction;
+use safecoin_client::rpc_client::RpcClient;
+use safecoin_client::rpc_config::RpcSendTransactionConfig;
+use safecoin_program::instruction::{AccountMeta, Instruction};
+use safecoin_sdk::account_utils::StateMut;
+use safecoin_sdk::bpf_loader;
+use safecoin_sdk::bpf_loader_deprecated;
+use safecoin_sdk::bpf_loader_upgradeable::{self, UpgradeableLoaderState};
+use safecoin_sdk::commitment_config::CommitmentConfig;
+use safecoin_sdk::pubkey::Pubkey;
+use safecoin_sdk::signature::Keypair;
+use safecoin_sdk::signature::Signer;
+use safecoin_sdk::sysvar;
+use safecoin_sdk::transaction::Transaction;
 use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::collections::HashSet;
@@ -91,7 +91,7 @@ pub enum Command {
         /// Version of the Solana toolchain to use. For --verifiable builds
         /// only.
         #[clap(short, long)]
-        solana_version: Option<String>,
+        safecoin_version: Option<String>,
         /// Docker image to use. For --verifiable builds only.
         #[clap(short, long)]
         docker_image: Option<String>,
@@ -141,7 +141,7 @@ pub enum Command {
         /// Version of the Solana toolchain to use. For --verifiable builds
         /// only.
         #[clap(short, long)]
-        solana_version: Option<String>,
+        safecoin_version: Option<String>,
         /// Docker image to use. For --verifiable builds only.
         #[clap(short, long)]
         docker_image: Option<String>,
@@ -391,7 +391,7 @@ pub fn entry(opts: Opts) -> Result<()> {
             idl_ts,
             verifiable,
             program_name,
-            solana_version,
+            safecoin_version,
             docker_image,
             bootstrap,
             cargo_args,
@@ -404,7 +404,7 @@ pub fn entry(opts: Opts) -> Result<()> {
             verifiable,
             skip_lint,
             program_name,
-            solana_version,
+            safecoin_version,
             docker_image,
             bootstrap,
             None,
@@ -415,7 +415,7 @@ pub fn entry(opts: Opts) -> Result<()> {
         Command::Verify {
             program_id,
             program_name,
-            solana_version,
+            safecoin_version,
             docker_image,
             bootstrap,
             cargo_args,
@@ -423,7 +423,7 @@ pub fn entry(opts: Opts) -> Result<()> {
             &opts.cfg_override,
             program_id,
             program_name,
-            solana_version,
+            safecoin_version,
             docker_image,
             bootstrap,
             cargo_args,
@@ -752,7 +752,7 @@ pub fn build(
     verifiable: bool,
     skip_lint: bool,
     program_name: Option<String>,
-    solana_version: Option<String>,
+    safecoin_version: Option<String>,
     docker_image: Option<String>,
     bootstrap: BootstrapMode,
     stdout: Option<File>, // Used for the package registry server.
@@ -768,7 +768,7 @@ pub fn build(
     let cfg = Config::discover(cfg_override)?.expect("Not in workspace.");
     let build_config = BuildConfig {
         verifiable,
-        solana_version: solana_version.or_else(|| cfg.solana_version.clone()),
+        safecoin_version: safecoin_version.or_else(|| cfg.safecoin_version.clone()),
         docker_image: docker_image.unwrap_or_else(|| cfg.docker()),
         bootstrap,
     };
@@ -1053,7 +1053,7 @@ fn docker_build(
 }
 
 fn docker_prep(container_name: &str, build_config: &BuildConfig) -> Result<()> {
-    // Set the solana version in the container, if given. Otherwise use the
+    // Set the safecoin version in the container, if given. Otherwise use the
     // default.
     match build_config.bootstrap {
         BootstrapMode::Debian => {
@@ -1075,8 +1075,8 @@ fn docker_prep(container_name: &str, build_config: &BuildConfig) -> Result<()> {
         BootstrapMode::None => {}
     }
 
-    if let Some(solana_version) = &build_config.solana_version {
-        println!("Using solana version: {}", solana_version);
+    if let Some(safecoin_version) = &build_config.safecoin_version {
+        println!("Using safecoin version: {}", safecoin_version);
 
         // Install Solana CLI
         docker_exec(
@@ -1084,13 +1084,13 @@ fn docker_prep(container_name: &str, build_config: &BuildConfig) -> Result<()> {
             &[
                 "curl",
                 "-sSfL",
-                &format!("https://release.solana.com/v{0}/install", solana_version,),
+                &format!("https://release.safecoin.com/v{0}/install", safecoin_version,),
                 "-o",
-                "solana_installer.sh",
+                "safecoin_installer.sh",
             ],
         )?;
-        docker_exec(container_name, &["sh", "solana_installer.sh"])?;
-        docker_exec(container_name, &["rm", "-f", "solana_installer.sh"])?;
+        docker_exec(container_name, &["sh", "safecoin_installer.sh"])?;
+        docker_exec(container_name, &["rm", "-f", "safecoin_installer.sh"])?;
     }
     Ok(())
 }
@@ -1120,7 +1120,7 @@ fn docker_build_bpf(
         .args(&[
             "exec",
             "--env",
-            "PATH=/root/.local/share/solana/install/active_release/bin:/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "PATH=/root/.local/share/safecoin/install/active_release/bin:/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
             container_name,
             "cargo",
             "build-bpf",
@@ -1263,7 +1263,7 @@ fn verify(
     cfg_override: &ConfigOverride,
     program_id: Pubkey,
     program_name: Option<String>,
-    solana_version: Option<String>,
+    safecoin_version: Option<String>,
     docker_image: Option<String>,
     bootstrap: BootstrapMode,
     cargo_args: Vec<String>,
@@ -1286,7 +1286,7 @@ fn verify(
         true,                                                  // verifiable
         true,                                                  // skip lint
         None,                                                  // program name
-        solana_version.or_else(|| cfg.solana_version.clone()), // solana version
+        safecoin_version.or_else(|| cfg.safecoin_version.clone()), // safecoin version
         docker_image,                                          // docker image
         bootstrap,                                             // bootstrap docker image
         None,                                                  // stdout
@@ -1454,13 +1454,13 @@ fn fetch_idl(cfg_override: &ConfigOverride, idl_addr: Pubkey) -> Result<Idl> {
         Some(cfg) => cluster_url(&cfg, &cfg.test_validator),
         None => {
             // If the command is not run inside a workspace,
-            // cluster_url will be used from default solana config
+            // cluster_url will be used from default safecoin config
             // provider.cluster option can be used to override this
 
             if let Some(cluster) = cfg_override.cluster.clone() {
                 cluster.url().to_string()
             } else {
-                config::get_solana_cfg_url()?
+                config::get_safecoin_cfg_url()?
             }
         }
     };
@@ -1579,7 +1579,7 @@ fn idl_write_buffer(
 
 fn idl_set_buffer(cfg_override: &ConfigOverride, program_id: Pubkey, buffer: Pubkey) -> Result<()> {
     with_workspace(cfg_override, |cfg| {
-        let keypair = solana_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
+        let keypair = safecoin_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
             .map_err(|_| anyhow!("Unable to read keypair file"))?;
         let url = cluster_url(cfg, &cfg.test_validator);
         let client = RpcClient::new(url);
@@ -1670,7 +1670,7 @@ fn idl_set_authority(
             None => IdlAccount::address(&program_id),
             Some(addr) => addr,
         };
-        let keypair = solana_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
+        let keypair = safecoin_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
             .map_err(|_| anyhow!("Unable to read keypair file"))?;
         let url = cluster_url(cfg, &cfg.test_validator);
         let client = RpcClient::new(url);
@@ -1739,7 +1739,7 @@ fn idl_write(cfg: &Config, program_id: &Pubkey, idl: &Idl, idl_address: Pubkey) 
     idl.metadata = None;
 
     // Misc.
-    let keypair = solana_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
+    let keypair = safecoin_sdk::signature::read_keypair_file(&cfg.provider.wallet.to_string())
         .map_err(|_| anyhow!("Unable to read keypair file"))?;
     let url = cluster_url(cfg, &cfg.test_validator);
     let client = RpcClient::new(url);
@@ -2030,9 +2030,9 @@ fn run_test_suite(
 
     Ok(())
 }
-// Returns the solana-test-validator flags. This will embed the workspace
+// Returns the safecoin-test-validator flags. This will embed the workspace
 // programs in the genesis block so we don't have to deploy every time. It also
-// allows control of other solana-test-validator features.
+// allows control of other safecoin-test-validator features.
 fn validator_flags(
     cfg: &WithPath<Config>,
     test_validator: &Option<TestValidator>,
@@ -2191,7 +2191,7 @@ fn stream_logs(config: &WithPath<Config>, rpc_url: &str) -> Result<Vec<std::proc
             program_logs_dir, metadata.address, program.lib_name,
         ))?;
         let stdio = std::process::Stdio::from(log_file);
-        let child = std::process::Command::new("solana")
+        let child = std::process::Command::new("safecoin")
             .arg("logs")
             .arg(metadata.address)
             .arg("--url")
@@ -2205,7 +2205,7 @@ fn stream_logs(config: &WithPath<Config>, rpc_url: &str) -> Result<Vec<std::proc
             for entry in genesis {
                 let log_file = File::create(format!("{}/{}.log", program_logs_dir, entry.address))?;
                 let stdio = std::process::Stdio::from(log_file);
-                let child = std::process::Command::new("solana")
+                let child = std::process::Command::new("safecoin")
                     .arg("logs")
                     .arg(entry.address.clone())
                     .arg("--url")
@@ -2254,7 +2254,7 @@ fn start_test_validator(
         .test_validator
         .as_ref()
         .and_then(|test| test.validator.as_ref().map(|v| v.rpc_port))
-        .unwrap_or(solana_sdk::rpc_port::DEFAULT_RPC_PORT);
+        .unwrap_or(safecoin_sdk::rpc_port::DEFAULT_RPC_PORT);
     if !portpicker::is_free(rpc_port) {
         return Err(anyhow!(
             "Your configured rpc port: {rpc_port} is already in use"
@@ -2264,14 +2264,14 @@ fn start_test_validator(
         .test_validator
         .as_ref()
         .and_then(|test| test.validator.as_ref().and_then(|v| v.faucet_port))
-        .unwrap_or(solana_faucet::faucet::FAUCET_PORT);
+        .unwrap_or(safecoin_faucet::faucet::FAUCET_PORT);
     if !portpicker::is_free(faucet_port) {
         return Err(anyhow!(
             "Your configured faucet port: {faucet_port} is already in use"
         ));
     }
 
-    let mut validator_handle = std::process::Command::new("solana-test-validator")
+    let mut validator_handle = std::process::Command::new("safecoin-test-validator")
         .arg("--ledger")
         .arg(test_ledger_directory)
         .arg("--mint")
@@ -2308,7 +2308,7 @@ fn start_test_validator(
     Ok(validator_handle)
 }
 
-// Return the URL that solana-test-validator should be running on given the
+// Return the URL that safecoin-test-validator should be running on given the
 // configuration
 fn test_validator_rpc_url(test_validator: &Option<TestValidator>) -> String {
     match test_validator {
@@ -2320,7 +2320,7 @@ fn test_validator_rpc_url(test_validator: &Option<TestValidator>) -> String {
     }
 }
 
-// Setup and return paths to the solana-test-validator ledger directory and log
+// Setup and return paths to the safecoin-test-validator ledger directory and log
 // files given the configuration
 fn test_validator_file_paths(test_validator: &Option<TestValidator>) -> (String, String) {
     let ledger_directory = match test_validator {
@@ -2353,7 +2353,7 @@ fn cluster_url(cfg: &Config, test_validator: &Option<TestValidator>) -> String {
     let is_localnet = cfg.provider.cluster == Cluster::Localnet;
     match is_localnet {
         // Cluster is Localnet, assume the intent is to use the configuration
-        // for solana-test-validator
+        // for safecoin-test-validator
         true => test_validator_rpc_url(test_validator),
         false => cfg.provider.cluster.url().to_string(),
     }
@@ -2421,7 +2421,7 @@ fn deploy(
             };
 
             // Send deploy transactions.
-            let exit = std::process::Command::new("solana")
+            let exit = std::process::Command::new("safecoin")
                 .arg("program")
                 .arg("deploy")
                 .arg("--url")
@@ -2471,7 +2471,7 @@ fn upgrade(
 
     with_workspace(cfg_override, |cfg| {
         let url = cluster_url(cfg, &cfg.test_validator);
-        let exit = std::process::Command::new("solana")
+        let exit = std::process::Command::new("safecoin")
             .arg("program")
             .arg("deploy")
             .arg("--url")
@@ -2501,7 +2501,7 @@ fn create_idl_account(
 ) -> Result<Pubkey> {
     // Misc.
     let idl_address = IdlAccount::address(program_id);
-    let keypair = solana_sdk::signature::read_keypair_file(keypair_path)
+    let keypair = safecoin_sdk::signature::read_keypair_file(keypair_path)
         .map_err(|_| anyhow!("Unable to read keypair file"))?;
     let url = cluster_url(cfg, &cfg.test_validator);
     let client = RpcClient::new(url);
@@ -2517,9 +2517,9 @@ fn create_idl_account(
             AccountMeta::new_readonly(keypair.pubkey(), true),
             AccountMeta::new(idl_address, false),
             AccountMeta::new_readonly(program_signer, false),
-            AccountMeta::new_readonly(solana_program::system_program::ID, false),
+            AccountMeta::new_readonly(safecoin_program::system_program::ID, false),
             AccountMeta::new_readonly(*program_id, false),
-            AccountMeta::new_readonly(solana_program::sysvar::rent::ID, false),
+            AccountMeta::new_readonly(safecoin_program::sysvar::rent::ID, false),
         ];
         let ix = Instruction {
             program_id: *program_id,
@@ -2555,7 +2555,7 @@ fn create_idl_buffer(
     program_id: &Pubkey,
     idl: &Idl,
 ) -> Result<Pubkey> {
-    let keypair = solana_sdk::signature::read_keypair_file(keypair_path)
+    let keypair = safecoin_sdk::signature::read_keypair_file(keypair_path)
         .map_err(|_| anyhow!("Unable to read keypair file"))?;
     let url = cluster_url(cfg, &cfg.test_validator);
     let client = RpcClient::new(url);
@@ -2566,7 +2566,7 @@ fn create_idl_buffer(
     let create_account_ix = {
         let space = 8 + 32 + 4 + serialize_idl(idl)?.len() as usize;
         let lamports = client.get_minimum_balance_for_rent_exemption(space)?;
-        solana_sdk::system_instruction::create_account(
+        safecoin_sdk::system_instruction::create_account(
             &keypair.pubkey(),
             &buffer.pubkey(),
             lamports,
@@ -2713,7 +2713,7 @@ fn airdrop(cfg_override: &ConfigOverride) -> Result<()> {
         .unwrap_or_else(|| &Cluster::Devnet)
         .url();
     loop {
-        let exit = std::process::Command::new("solana")
+        let exit = std::process::Command::new("safecoin")
             .arg("airdrop")
             .arg("10")
             .arg("--url")
@@ -2732,10 +2732,10 @@ fn airdrop(cfg_override: &ConfigOverride) -> Result<()> {
 
 fn cluster(_cmd: ClusterCommand) -> Result<()> {
     println!("Cluster Endpoints:\n");
-    println!("* Mainnet - https://solana-api.projectserum.com");
-    println!("* Mainnet - https://api.mainnet-beta.solana.com");
-    println!("* Devnet  - https://api.devnet.solana.com");
-    println!("* Testnet - https://api.testnet.solana.com");
+    println!("* Mainnet - https://safecoin-api.projectserum.com");
+    println!("* Mainnet - https://api.mainnet-beta.safecoin.com");
+    println!("* Devnet  - https://api.devnet.safecoin.com");
+    println!("* Testnet - https://api.testnet.safecoin.com");
     Ok(())
 }
 

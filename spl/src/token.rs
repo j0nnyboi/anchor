@@ -1,9 +1,9 @@
-use anchor_lang::solana_program::account_info::AccountInfo;
+use anchor_lang::safecoin_program::account_info::AccountInfo;
 
-use anchor_lang::solana_program::program_pack::Pack;
-use anchor_lang::solana_program::pubkey::Pubkey;
+use anchor_lang::safecoin_program::program_pack::Pack;
+use anchor_lang::safecoin_program::pubkey::Pubkey;
 use anchor_lang::{context::CpiContext, Accounts};
-use anchor_lang::{solana_program, Result};
+use anchor_lang::{safecoin_program, Result};
 use std::ops::Deref;
 
 pub use spl_token;
@@ -21,7 +21,7 @@ pub fn transfer<'a, 'b, 'c, 'info>(
         &[],
         amount,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.from.clone(),
@@ -45,7 +45,7 @@ pub fn mint_to<'a, 'b, 'c, 'info>(
         &[],
         amount,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.to.clone(),
@@ -69,7 +69,7 @@ pub fn burn<'a, 'b, 'c, 'info>(
         &[],
         amount,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.from.clone(),
@@ -93,7 +93,7 @@ pub fn approve<'a, 'b, 'c, 'info>(
         &[],
         amount,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.to.clone(),
@@ -112,7 +112,7 @@ pub fn revoke<'a, 'b, 'c, 'info>(ctx: CpiContext<'a, 'b, 'c, 'info, Revoke<'info
         ctx.accounts.authority.key,
         &[],
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[ctx.accounts.source.clone(), ctx.accounts.authority.clone()],
         ctx.signer_seeds,
@@ -129,7 +129,7 @@ pub fn initialize_account<'a, 'b, 'c, 'info>(
         ctx.accounts.mint.key,
         ctx.accounts.authority.key,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.account.clone(),
@@ -152,7 +152,7 @@ pub fn close_account<'a, 'b, 'c, 'info>(
         ctx.accounts.authority.key,
         &[], // TODO: support multisig
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.account.clone(),
@@ -174,7 +174,7 @@ pub fn freeze_account<'a, 'b, 'c, 'info>(
         ctx.accounts.authority.key,
         &[], // TODO: Support multisig signers.
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.account.clone(),
@@ -196,7 +196,7 @@ pub fn thaw_account<'a, 'b, 'c, 'info>(
         ctx.accounts.authority.key,
         &[], // TODO: Support multisig signers.
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.account.clone(),
@@ -221,7 +221,7 @@ pub fn initialize_mint<'a, 'b, 'c, 'info>(
         freeze_authority,
         decimals,
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[ctx.accounts.mint.clone(), ctx.accounts.rent.clone()],
         ctx.signer_seeds,
@@ -247,7 +247,7 @@ pub fn set_authority<'a, 'b, 'c, 'info>(
         ctx.accounts.current_authority.key,
         &[], // TODO: Support multisig signers.
     )?;
-    solana_program::program::invoke_signed(
+    safecoin_program::program::invoke_signed(
         &ix,
         &[
             ctx.accounts.account_or_mint.clone(),

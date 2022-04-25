@@ -1,7 +1,7 @@
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey } from "@safecoin/web3.js";
 import { Program } from "../program/index.js";
 import Provider from "../provider.js";
-import { SplTokenCoder } from "../coder/spl-token/index.js";
+import { SplTokenCoder } from "../coder/safe-token/index.js";
 
 const TOKEN_PROGRAM_ID = new PublicKey(
   "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"

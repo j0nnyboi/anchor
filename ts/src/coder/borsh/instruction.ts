@@ -5,7 +5,7 @@ import camelCase from "camelcase";
 import { snakeCase } from "snake-case";
 import { sha256 } from "js-sha256";
 import * as borsh from "@project-serum/borsh";
-import { AccountMeta, PublicKey } from "@solana/web3.js";
+import { AccountMeta, PublicKey } from "@safecoin/web3.js";
 import {
   Idl,
   IdlField,

@@ -390,7 +390,7 @@ fn generate_constraint_init_group(f: &Field, c: &ConstraintInitGroup) -> proc_ma
                 #find_pda
 
                 let #field: #ty_decl = {
-                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::solana_program::system_program::ID {
+                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::safecoin_program::system_program::ID {
                         // Define payer variable.
                         #payer
 
@@ -428,7 +428,7 @@ fn generate_constraint_init_group(f: &Field, c: &ConstraintInitGroup) -> proc_ma
                 #find_pda
 
                 let #field: #ty_decl = {
-                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::solana_program::system_program::ID {
+                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::safecoin_program::system_program::ID {
                         #payer
 
                         let cpi_program = associated_token_program.to_account_info();
@@ -481,7 +481,7 @@ fn generate_constraint_init_group(f: &Field, c: &ConstraintInitGroup) -> proc_ma
                 #find_pda
 
                 let #field: #ty_decl = {
-                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::solana_program::system_program::ID {
+                    if !#if_needed || AsRef::<AccountInfo>::as_ref(&#field).owner == &anchor_lang::safecoin_program::system_program::ID {
                         // Define payer variable.
                         #payer
 
@@ -499,7 +499,7 @@ fn generate_constraint_init_group(f: &Field, c: &ConstraintInitGroup) -> proc_ma
                     }
                     let pa: #ty_decl = #from_account_info_unchecked;
                     if #if_needed {
-                        if pa.mint_authority != anchor_lang::solana_program::program_option::COption::Some(#owner.key()) {
+                        if pa.mint_authority != anchor_lang::safecoin_program::program_option::COption::Some(#owner.key()) {
                             return Err(anchor_lang::error::Error::from(anchor_lang::error::ErrorCode::ConstraintMintMintAuthority).with_account_name(#name_str));
                         }
                         if pa.freeze_authority
@@ -549,7 +549,7 @@ fn generate_constraint_init_group(f: &Field, c: &ConstraintInitGroup) -> proc_ma
 
                     // Create the account. Always do this in the event
                     // if needed is not specified or the system program is the owner.
-                    let pa: #ty_decl = if !#if_needed || actual_owner == &anchor_lang::solana_program::system_program::ID {
+                    let pa: #ty_decl = if !#if_needed || actual_owner == &anchor_lang::safecoin_program::system_program::ID {
                         // Define the payer variable.
                         #payer
 
@@ -732,7 +732,7 @@ fn generate_constraint_mint(f: &Field, c: &ConstraintTokenMintGroup) -> proc_mac
     };
     let mint_authority_check = match &c.mint_authority {
         Some(mint_authority) => quote! {
-            if #name.mint_authority != anchor_lang::solana_program::program_option::COption::Some(anchor_lang::Key::key(&#mint_authority)) {
+            if #name.mint_authority != anchor_lang::safecoin_program::program_option::COption::Some(anchor_lang::Key::key(&#mint_authority)) {
                 return Err(anchor_lang::error::ErrorCode::ConstraintMintMintAuthority.into());
             }
         },
@@ -740,7 +740,7 @@ fn generate_constraint_mint(f: &Field, c: &ConstraintTokenMintGroup) -> proc_mac
     };
     let freeze_authority_check = match &c.freeze_authority {
         Some(freeze_authority) => quote! {
-            if #name.freeze_authority != anchor_lang::solana_program::program_option::COption::Some(anchor_lang::Key::key(&#freeze_authority)) {
+            if #name.freeze_authority != anchor_lang::safecoin_program::program_option::COption::Some(anchor_lang::Key::key(&#freeze_authority)) {
                 return Err(anchor_lang::error::ErrorCode::ConstraintMintFreezeAuthority.into());
             }
         },

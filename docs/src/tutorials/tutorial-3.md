@@ -67,7 +67,7 @@ account and wants to send tokens to another account, it must sign. In Solana, th
 `CpiContext::new(cpi_accounts, cpi_program)` to
 `CpiContext::new_with_signer(cpi_accounts, cpi_program, signer_seeds)`.
 
-For more background on signing with program derived addresses, see the official Solana [documentation](https://docs.solana.com/developing/programming-model/calling-between-programs#program-signed-accounts).
+For more background on signing with program derived addresses, see the official Solana [documentation](https://docs.safecoin.com/developing/programming-model/calling-between-programs#program-signed-accounts).
 
 ## Return values
 
@@ -81,4 +81,4 @@ Now that you can have your programs call other programs, you should be able to a
 
 ## Next Steps
 
-We just covered Cross Program Invocation and showed how anchor can handle talking to multiple different programs in the solana ecosystem. In the next step, we will teach you how to handle errors and in Anchor.
+We just covered Cross Program Invocation and showed how anchor can handle talking to multiple different programs in the safecoin ecosystem. In the next step, we will teach you how to handle errors and in Anchor.

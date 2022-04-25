@@ -5,7 +5,7 @@ import {
   Keypair,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
-} from "@solana/web3.js";
+} from "@safecoin/web3.js";
 // @ts-expect-error
 import { Misc } from "../../target/types/misc";
 const { assert } = require("chai");

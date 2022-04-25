@@ -24,9 +24,9 @@
 extern crate self as anchor_lang;
 
 use bytemuck::{Pod, Zeroable};
-use solana_program::account_info::AccountInfo;
-use solana_program::instruction::AccountMeta;
-use solana_program::pubkey::Pubkey;
+use safecoin_program::account_info::AccountInfo;
+use safecoin_program::instruction::AccountMeta;
+use safecoin_program::pubkey::Pubkey;
 use std::collections::BTreeMap;
 use std::io::Write;
 
@@ -55,7 +55,7 @@ pub use anchor_attribute_state::state;
 pub use anchor_derive_accounts::Accounts;
 /// Borsh is the default serialization format for instructions and accounts.
 pub use borsh::{BorshDeserialize as AnchorDeserialize, BorshSerialize as AnchorSerialize};
-pub use solana_program;
+pub use safecoin_program;
 
 pub type Result<T> = std::result::Result<T, error::Error>;
 
@@ -102,7 +102,7 @@ pub trait AccountsClose<'info>: ToAccountInfos<'info> {
 }
 
 /// Transformation to
-/// [`AccountMeta`](../solana_program/instruction/struct.AccountMeta.html)
+/// [`AccountMeta`](../safecoin_program/instruction/struct.AccountMeta.html)
 /// structs.
 pub trait ToAccountMetas {
     /// `is_signer` is given as an optional override for the signer meta field.
@@ -114,7 +114,7 @@ pub trait ToAccountMetas {
 }
 
 /// Transformation to
-/// [`AccountInfo`](../solana_program/account_info/struct.AccountInfo.html)
+/// [`AccountInfo`](../safecoin_program/account_info/struct.AccountInfo.html)
 /// structs.
 pub trait ToAccountInfos<'info> {
     fn to_account_infos(&self) -> Vec<AccountInfo<'info>>;
@@ -136,7 +136,7 @@ where
 
 /// A data structure that can be serialized and stored into account storage,
 /// i.e. an
-/// [`AccountInfo`](../solana_program/account_info/struct.AccountInfo.html#structfield.data)'s
+/// [`AccountInfo`](../safecoin_program/account_info/struct.AccountInfo.html#structfield.data)'s
 /// mutable data slice.
 ///
 /// Implementors of this trait should ensure that any subsequent usage of the
@@ -154,7 +154,7 @@ pub trait AccountSerialize {
 
 /// A data structure that can be deserialized and stored into account storage,
 /// i.e. an
-/// [`AccountInfo`](../solana_program/account_info/struct.AccountInfo.html#structfield.data)'s
+/// [`AccountInfo`](../safecoin_program/account_info/struct.AccountInfo.html#structfield.data)'s
 /// mutable data slice.
 pub trait AccountDeserialize: Sized {
     /// Deserializes previously initialized account data. Should fail for all
@@ -239,7 +239,7 @@ pub mod prelude {
         accounts::sysvar::Sysvar, accounts::unchecked_account::UncheckedAccount, constant,
         context::Context, context::CpiContext, declare_id, emit, err, error, event, interface,
         program, require, require_eq, require_gt, require_gte, require_keys_eq, require_keys_neq,
-        require_neq, solana_program::bpf_loader_upgradeable::UpgradeableLoaderState, source, state,
+        require_neq, safecoin_program::bpf_loader_upgradeable::UpgradeableLoaderState, source, state,
         system_program::System, zero_copy, AccountDeserialize, AccountSerialize, Accounts,
         AccountsExit, AnchorDeserialize, AnchorSerialize, Id, Key, Owner, ProgramData, Result,
         ToAccountInfo, ToAccountInfos, ToAccountMetas,
@@ -247,20 +247,20 @@ pub mod prelude {
     pub use anchor_attribute_error::*;
     pub use borsh;
     pub use error::*;
-    pub use solana_program::account_info::{next_account_info, AccountInfo};
-    pub use solana_program::instruction::AccountMeta;
-    pub use solana_program::msg;
-    pub use solana_program::program_error::ProgramError;
-    pub use solana_program::pubkey::Pubkey;
-    pub use solana_program::sysvar::clock::Clock;
-    pub use solana_program::sysvar::epoch_schedule::EpochSchedule;
-    pub use solana_program::sysvar::instructions::Instructions;
-    pub use solana_program::sysvar::rent::Rent;
-    pub use solana_program::sysvar::rewards::Rewards;
-    pub use solana_program::sysvar::slot_hashes::SlotHashes;
-    pub use solana_program::sysvar::slot_history::SlotHistory;
-    pub use solana_program::sysvar::stake_history::StakeHistory;
-    pub use solana_program::sysvar::Sysvar as SolanaSysvar;
+    pub use safecoin_program::account_info::{next_account_info, AccountInfo};
+    pub use safecoin_program::instruction::AccountMeta;
+    pub use safecoin_program::msg;
+    pub use safecoin_program::program_error::ProgramError;
+    pub use safecoin_program::pubkey::Pubkey;
+    pub use safecoin_program::sysvar::clock::Clock;
+    pub use safecoin_program::sysvar::epoch_schedule::EpochSchedule;
+    pub use safecoin_program::sysvar::instructions::Instructions;
+    pub use safecoin_program::sysvar::rent::Rent;
+    pub use safecoin_program::sysvar::rewards::Rewards;
+    pub use safecoin_program::sysvar::slot_hashes::SlotHashes;
+    pub use safecoin_program::sysvar::slot_history::SlotHistory;
+    pub use safecoin_program::sysvar::stake_history::StakeHistory;
+    pub use safecoin_program::sysvar::Sysvar as SolanaSysvar;
     pub use thiserror;
 }
 
@@ -281,7 +281,7 @@ pub mod __private {
 
     pub use bytemuck;
 
-    use solana_program::pubkey::Pubkey;
+    use safecoin_program::pubkey::Pubkey;
 
     pub mod state {
         pub use crate::accounts::state::*;

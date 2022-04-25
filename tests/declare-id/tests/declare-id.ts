@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import { AnchorError, Program } from "@project-serum/anchor";
-import splToken from "@solana/spl-token";
+import splToken from "@safecoin/safe-token";
 import { DeclareId } from "../target/types/declare_id";
 import { assert } from "chai";
 

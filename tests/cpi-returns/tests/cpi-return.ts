@@ -4,7 +4,7 @@ import * as borsh from "borsh";
 import { Program } from "@project-serum/anchor";
 import { Callee } from "../target/types/callee";
 import { Caller } from "../target/types/caller";
-import { ConfirmOptions } from "@solana/web3.js";
+import { ConfirmOptions } from "@safecoin/web3.js";
 
 const { SystemProgram } = anchor.web3;
 

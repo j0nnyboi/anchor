@@ -59,10 +59,10 @@ This lists cluster endpoints:
 ```
 Cluster Endpoints:
 
-* Mainnet - https://solana-api.projectserum.com
-* Mainnet - https://api.mainnet-beta.solana.com
-* Devnet  - https://api.devnet.solana.com
-* Testnet - https://api.testnet.solana.com
+* Mainnet - https://safecoin-api.projectserum.com
+* Mainnet - https://api.mainnet-beta.safecoin.com
+* Devnet  - https://api.devnet.safecoin.com
+* Testnet - https://api.testnet.safecoin.com
 ```
 
 ## Deploy
@@ -74,7 +74,7 @@ anchor deploy
 Deploys all programs in the workspace to the configured cluster.
 
 ::: tip Note
-This is different from the `solana program deploy` command, because everytime it's run
+This is different from the `safecoin program deploy` command, because everytime it's run
 it will generate a *new* program address.
 :::
 

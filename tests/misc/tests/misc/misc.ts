@@ -11,12 +11,12 @@ import {
   Keypair,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
-} from "@solana/web3.js";
+} from "@safecoin/web3.js";
 import {
   TOKEN_PROGRAM_ID,
   Token,
   ASSOCIATED_TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+} from "@safecoin/safe-token";
 import { Misc } from "../../target/types/misc";
 import { Misc2 } from "../../target/types/misc2";
 const utf8 = anchor.utils.bytes.utf8;

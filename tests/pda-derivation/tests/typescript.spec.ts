@@ -1,6 +1,6 @@
 import * as anchor from "@project-serum/anchor";
 import BN from "bn.js";
-import { Keypair } from "@solana/web3.js";
+import { Keypair } from "@safecoin/web3.js";
 import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
 import { Program } from "@project-serum/anchor";
 import { PdaDerivation } from "../target/types/pda_derivation";

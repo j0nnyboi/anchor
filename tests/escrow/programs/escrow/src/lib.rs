@@ -1,5 +1,5 @@
 //! An example of an escrow program, inspired by PaulX tutorial seen here
-//! https://paulx.dev/blog/2021/01/14/programming-on-solana-an-introduction/
+//! https://paulx.dev/blog/2021/01/14/programming-on-safecoin-an-introduction/
 //! This example has some changes to implementation, but more or less should be the same overall
 //! Also gives examples on how to use some newer anchor features and CPI
 //!

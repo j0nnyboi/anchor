@@ -1,5 +1,5 @@
 const anchor = require("@project-serum/anchor");
-const splToken = require("@solana/spl-token");
+const splToken = require("@safecoin/safe-token");
 const { assert } = require("chai");
 
 describe("system_accounts", () => {

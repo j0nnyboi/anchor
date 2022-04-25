@@ -15,10 +15,10 @@ rustup component add rustfmt
 
 ## Install Solana
 
-See the solana [docs](https://docs.solana.com/cli/install-solana-cli-tools) for installation instructions. On macOS and Linux,
+See the safecoin [docs](https://docs.safecoin.com/cli/install-safecoin-cli-tools) for installation instructions. On macOS and Linux,
 
 ```bash
-sh -c "$(curl -sSfL https://release.solana.com/v1.9.1/install)"
+sh -c "$(curl -sSfL https://release.safecoin.com/v1.9.1/install)"
 ```
 
 ## Install Yarn

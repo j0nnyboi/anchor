@@ -2,7 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { Spl } from "@project-serum/anchor";
 import { assert } from "chai";
 import BN from "bn.js";
-import { Keypair, SYSVAR_RENT_PUBKEY } from "@solana/web3.js";
+import { Keypair, SYSVAR_RENT_PUBKEY } from "@safecoin/web3.js";
 
 describe("custom-coder", () => {
   // Configure the client to use the local cluster.

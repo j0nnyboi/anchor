@@ -11,7 +11,7 @@
 //! 2. Threshold - the number of signers required to execute a transaction.
 //!
 //! Once the `Multisig` account is created, one can create a `Transaction`
-//! account, specifying the parameters for a normal solana transaction.
+//! account, specifying the parameters for a normal safecoin transaction.
 //!
 //! To sign, owners should invoke the `approve` instruction, and finally,
 //! the `execute_transaction`, once enough (i.e. `threshold`) of the owners have
@@ -19,8 +19,8 @@
 
 use anchor_lang::accounts::program_account::ProgramAccount;
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program;
-use anchor_lang::solana_program::instruction::Instruction;
+use anchor_lang::safecoin_program;
+use anchor_lang::safecoin_program::instruction::Instruction;
 use std::convert::Into;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
@@ -156,7 +156,7 @@ pub mod multisig {
         ];
         let signer = &[&seeds[..]];
         let accounts = ctx.remaining_accounts;
-        solana_program::program::invoke_signed(&ix, &accounts, signer)?;
+        safecoin_program::program::invoke_signed(&ix, &accounts, signer)?;
 
         // Burn the transaction to ensure one time use.
         ctx.accounts.transaction.did_execute = true;

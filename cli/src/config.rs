@@ -5,9 +5,9 @@ use anyhow::{anyhow, Context, Error, Result};
 use clap::{ArgEnum, Parser};
 use heck::SnakeCase;
 use serde::{Deserialize, Serialize};
-use solana_cli_config::{Config as SolanaConfig, CONFIG_FILE};
-use solana_sdk::pubkey::Pubkey;
-use solana_sdk::signature::{Keypair, Signer};
+use safecoin_cli_config::{Config as SolanaConfig, CONFIG_FILE};
+use safecoin_sdk::pubkey::Pubkey;
+use safecoin_sdk::signature::{Keypair, Signer};
 use std::collections::{BTreeMap, HashMap};
 use std::convert::TryFrom;
 use std::fs::{self, File};
@@ -268,7 +268,7 @@ impl<T> std::ops::DerefMut for WithPath<T> {
 #[derive(Debug, Default)]
 pub struct Config {
     pub anchor_version: Option<String>,
-    pub solana_version: Option<String>,
+    pub safecoin_version: Option<String>,
     pub features: FeaturesConfig,
     pub registry: RegistryConfig,
     pub provider: ProviderConfig,
@@ -330,7 +330,7 @@ pub enum BootstrapMode {
 #[derive(Debug, Clone)]
 pub struct BuildConfig {
     pub verifiable: bool,
-    pub solana_version: Option<String>,
+    pub safecoin_version: Option<String>,
     pub docker_image: String,
     pub bootstrap: BootstrapMode,
 }
@@ -398,7 +398,7 @@ impl Config {
     }
 
     pub fn wallet_kp(&self) -> Result<Keypair> {
-        solana_sdk::signature::read_keypair_file(&self.provider.wallet.to_string())
+        safecoin_sdk::signature::read_keypair_file(&self.provider.wallet.to_string())
             .map_err(|_| anyhow!("Unable to read keypair file"))
     }
 }
@@ -406,7 +406,7 @@ impl Config {
 #[derive(Debug, Serialize, Deserialize)]
 struct _Config {
     anchor_version: Option<String>,
-    solana_version: Option<String>,
+    safecoin_version: Option<String>,
     features: Option<FeaturesConfig>,
     programs: Option<BTreeMap<String, BTreeMap<String, serde_json::Value>>>,
     registry: Option<RegistryConfig>,
@@ -434,7 +434,7 @@ impl ToString for Config {
         };
         let cfg = _Config {
             anchor_version: self.anchor_version.clone(),
-            solana_version: self.solana_version.clone(),
+            safecoin_version: self.safecoin_version.clone(),
             features: Some(self.features.clone()),
             registry: Some(self.registry.clone()),
             provider: Provider {
@@ -463,7 +463,7 @@ impl FromStr for Config {
             .map_err(|e| anyhow::format_err!("Unable to deserialize config: {}", e.to_string()))?;
         Ok(Config {
             anchor_version: cfg.anchor_version,
-            solana_version: cfg.solana_version,
+            safecoin_version: cfg.safecoin_version,
             features: cfg.features.unwrap_or_default(),
             registry: cfg.registry.unwrap_or_default(),
             provider: ProviderConfig {
@@ -479,7 +479,7 @@ impl FromStr for Config {
     }
 }
 
-pub fn get_solana_cfg_url() -> Result<String, io::Error> {
+pub fn get_safecoin_cfg_url() -> Result<String, io::Error> {
     let config_file = CONFIG_FILE.as_ref().ok_or_else(|| {
         io::Error::new(
             io::ErrorKind::NotFound,
@@ -906,7 +906,7 @@ impl From<_Validator> for Validator {
             limit_ledger_size: _validator.limit_ledger_size,
             rpc_port: _validator
                 .rpc_port
-                .unwrap_or(solana_sdk::rpc_port::DEFAULT_RPC_PORT),
+                .unwrap_or(safecoin_sdk::rpc_port::DEFAULT_RPC_PORT),
             slots_per_epoch: _validator.slots_per_epoch,
             warp_slot: _validator.warp_slot,
         }
@@ -1016,7 +1016,7 @@ impl Program {
 
     pub fn keypair(&self) -> Result<Keypair> {
         let file = self.keypair_file()?;
-        solana_sdk::signature::read_keypair_file(file.path())
+        safecoin_sdk::signature::read_keypair_file(file.path())
             .map_err(|_| anyhow!("failed to read keypair for program: {}", self.lib_name))
     }
 
@@ -1115,4 +1115,4 @@ impl AnchorPackage {
     }
 }
 
-crate::home_path!(WalletPath, ".config/solana/id.json");
+crate::home_path!(WalletPath, ".config/safecoin/id.json");

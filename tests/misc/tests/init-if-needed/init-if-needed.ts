@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { AnchorError, Program } from "@project-serum/anchor";
 import { InitIfNeeded } from "../../target/types/init_if_needed";
-import { SystemProgram, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { SystemProgram, LAMPORTS_PER_SOL } from "@safecoin/web3.js";
 import { expect } from "chai";
 
 describe("init-if-needed", () => {

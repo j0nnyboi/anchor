@@ -31,17 +31,17 @@ yarn install
 
 ## Starting a Localnet
 
-In a separate terminal, start a local network. If you're running solana
+In a separate terminal, start a local network. If you're running safecoin
 for the first time, generate a wallet.
 
 ```
-solana-keygen new
+safecoin-keygen new
 ```
 
 Then run
 
 ```
-solana-test-validator
+safecoin-test-validator
 ```
 
 Then, shut it down.
@@ -70,7 +70,7 @@ container for the currently executing `program_id` generic over
 
 * `#[derive(Accounts)]` The `Accounts` derive macro marks a struct containing all the accounts that must be
 specified for a given instruction. To understand Accounts on Solana, see the
-[docs](https://docs.solana.com/developing/programming-model/accounts).
+[docs](https://docs.safecoin.com/developing/programming-model/accounts).
 In subsequent tutorials, we'll demonstrate how an `Accounts` struct can be used to
 specify constraints on accounts given to your program. Since this example doesn't touch any
 accounts, we skip this (important) detail.
@@ -139,11 +139,11 @@ the `rpc` namespace.
 
 Now, make sure to plugin your program's address into `<YOUR-PROGRAM-ID>` (a mild
 annoyance that we'll address next). In order to run the client, you'll also need the path
-to your wallet's keypair you generated when you ran `solana-keygen new`; you can find it
+to your wallet's keypair you generated when you ran `safecoin-keygen new`; you can find it
 by running
 
 ```bash
-solana config get keypair
+safecoin config get keypair
 ```
 
 Once you've got it, run the client with the environment variable `ANCHOR_WALLET` set to

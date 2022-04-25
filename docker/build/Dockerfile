@@ -14,7 +14,7 @@ ARG ANCHOR_CLI
 ENV NODE_VERSION="v17.0.1"
 ENV HOME="/root"
 ENV PATH="${HOME}/.cargo/bin:${PATH}"
-ENV PATH="${HOME}/.local/share/solana/install/active_release/bin:${PATH}"
+ENV PATH="${HOME}/.local/share/safecoin/install/active_release/bin:${PATH}"
 ENV PATH="${HOME}/.nvm/versions/node/${NODE_VERSION}/bin:${PATH}"
 
 # Install base utilities.
@@ -38,7 +38,7 @@ RUN . $NVM_DIR/nvm.sh && \
     npm install -g yarn
 
 # Install Solana tools.
-RUN sh -c "$(curl -sSfL https://release.solana.com/${SOLANA_CLI}/install)"
+RUN sh -c "$(curl -sSfL https://release.safecoin.com/${SOLANA_CLI}/install)"
 
 # Install anchor.
 RUN cargo install --git https://github.com/project-serum/anchor --tag ${ANCHOR_CLI} anchor-cli --locked

@@ -22,8 +22,8 @@ pub mod caller {
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
         let result = callee::cpi::return_u64(cpi_ctx)?;
-        let solana_return = result.get();
-        anchor_lang::solana_program::log::sol_log_data(&[&solana_return.try_to_vec().unwrap()]);
+        let safecoin_return = result.get();
+        anchor_lang::safecoin_program::log::sol_log_data(&[&safecoin_return.try_to_vec().unwrap()]);
         Ok(())
     }
 
@@ -34,8 +34,8 @@ pub mod caller {
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
         let result = callee::cpi::return_struct(cpi_ctx)?;
-        let solana_return = result.get();
-        anchor_lang::solana_program::log::sol_log_data(&[&solana_return.try_to_vec().unwrap()]);
+        let safecoin_return = result.get();
+        anchor_lang::safecoin_program::log::sol_log_data(&[&safecoin_return.try_to_vec().unwrap()]);
         Ok(())
     }
 
@@ -46,8 +46,8 @@ pub mod caller {
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
         let result = callee::cpi::return_vec(cpi_ctx)?;
-        let solana_return = result.get();
-        anchor_lang::solana_program::log::sol_log_data(&[&solana_return.try_to_vec().unwrap()]);
+        let safecoin_return = result.get();
+        anchor_lang::safecoin_program::log::sol_log_data(&[&safecoin_return.try_to_vec().unwrap()]);
         Ok(())
     }
 

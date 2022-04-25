@@ -62,7 +62,7 @@ The minor version will be incremented upon a breaking change and the patch versi
 
 * avm: `avm install` switches to the newly installed version after installation finishes ([#1670](https://github.com/project-serum/anchor/pull/1670)).
 * spl: Re-export the `spl_token` crate ([#1665](https://github.com/project-serum/anchor/pull/1665)).
-* lang, cli, spl: Update solana toolchain to v1.9.13 ([#1653](https://github.com/project-serum/anchor/pull/1653) and [#1751](https://github.com/project-serum/anchor/pull/1751)).
+* lang, cli, spl: Update safecoin toolchain to v1.9.13 ([#1653](https://github.com/project-serum/anchor/pull/1653) and [#1751](https://github.com/project-serum/anchor/pull/1751)).
 * lang: `Program` type now deserializes `programdata_address` only on demand ([#1723](https://github.com/project-serum/anchor/pull/1723)).
 * ts: Make `Provider` an interface and adjust its signatures and add `AnchorProvider` implementor class ([#1707](https://github.com/project-serum/anchor/pull/1707)).
 * spl: Change "to" to "from" in `token::burn` ([#1080](https://github.com/project-serum/anchor/pull/1080)).
@@ -89,7 +89,7 @@ The minor version will be incremented upon a breaking change and the patch versi
 * client: Fix `Cluster`'s `FromStr` implementation ([#1362](https://github.com/project-serum/anchor/pull/1362)).
 * lang: Implement `Key` for `Pubkey` again, so `associated_token::*` constraints can use pubkey targets again ([#1601](https://github.com/project-serum/anchor/pull/1601)).
 * lang: Adjust error code so `#[error_code]` works with just importing `anchor_lang::error_code` ([#1610](https://github.com/project-serum/anchor/pull/1610)).
-* ts: Fix `spl-token` coder account parsing ([#1604](https://github.com/project-serum/anchor/pull/1604)).
+* ts: Fix `safe-token` coder account parsing ([#1604](https://github.com/project-serum/anchor/pull/1604)).
 * cli: Fix `npm install` fallback if `yarn` install doesn't work ([#1643](https://github.com/project-serum/anchor/pull/1643)).
 * lang: Fix bug where `owner = <target>` would not compile because of missing type annotation ([#1648](https://github.com/project-serum/anchor/pull/1648)).
 * ts: Adjust `send` and `simulate` functions in `provider.ts`, so they use the return value of `Wallet.signTransaction`([#1527](https://github.com/project-serum/anchor/pull/1527)).
@@ -103,7 +103,7 @@ The minor version will be incremented upon a breaking change and the patch versi
 * lang: Add support for logging expected and actual values and pubkeys. Add `require_eq` and `require_keys_eq` macros. Add default error code to `require` macro ([#1572](https://github.com/project-serum/anchor/pull/1572)).
 * lang: Add `system_program` CPI wrapper functions. Make `system_program` module public instead of re-exporting `system_program::System`([#1629](https://github.com/project-serum/anchor/pull/1629)).
 * cli: `avm use` no long prompts [y/n] if an install is needed first - it just tells the user to `avm install` ([#1565](https://github.com/project-serum/anchor/pull/1565))
-* ts: Add `AnchorError` with program stack and also a program stack for non-`AnchorError` errors ([#1640](https://github.com/project-serum/anchor/pull/1640)). `AnchorError` is not returned for `processed` tx that have `skipPreflight` set to `true` (it falls back to `ProgramError` or the raw solana library error).
+* ts: Add `AnchorError` with program stack and also a program stack for non-`AnchorError` errors ([#1640](https://github.com/project-serum/anchor/pull/1640)). `AnchorError` is not returned for `processed` tx that have `skipPreflight` set to `true` (it falls back to `ProgramError` or the raw safecoin library error).
 
 ## [0.22.1] - 2022-02-28
 
@@ -135,7 +135,7 @@ This change will break most programs. Do the following to upgrade:
      * change all `ProgramResult`'s to `Result<()>`
      * change `#[error]` to `#[error_code]`
      * change all `Err(MyError::SomeError.into())` to `Err(error!(MyError::SomeError))` and all `Err(ProgramError::SomeProgramError)` to `Err(ProgramError::SomeProgramError.into())` or `Err(Error::from(ProgramError::SomeProgramError).with_source(source!()))` to provide file and line source of the error (`with_source` is most useful with `ProgramError`s. `error!` already adds source information for custom and anchor internal errors).
-     * change all `solana_program::program::invoke()` to `solana_program::program::invoke().map_err(Into::into)` and `solana_program::program::invoke_signed()` to `solana_program::program::invoke_signed().map_err(Into::into)`
+     * change all `safecoin_program::program::invoke()` to `safecoin_program::program::invoke().map_err(Into::into)` and `safecoin_program::program::invoke_signed()` to `safecoin_program::program::invoke_signed().map_err(Into::into)`
 
 ## [0.21.0] - 2022-02-07
 
@@ -152,7 +152,7 @@ This change will break most programs. Do the following to upgrade:
 * ts: Remove error logging in the event parser when log websocket encounters a program error ([#1313](https://github.com/project-serum/anchor/pull/1313)).
 * ts: Add new `methods` namespace to the program client, introducing a more ergonomic builder API ([#1324](https://github.com/project-serum/anchor/pull/1324)).
 * ts: Add registry utility for fetching the latest verified build ([#1371](https://github.com/project-serum/anchor/pull/1371)).
-* cli: Expose the solana-test-validator --account flag in Anchor.toml via [[test.validator.account]] ([#1366](https://github.com/project-serum/anchor/pull/1366)).
+* cli: Expose the safecoin-test-validator --account flag in Anchor.toml via [[test.validator.account]] ([#1366](https://github.com/project-serum/anchor/pull/1366)).
 * cli: Add avm, a tool for managing anchor-cli versions ([#1385](https://github.com/project-serum/anchor/pull/1385)).
 
 ### Breaking
@@ -189,7 +189,7 @@ This change will break most programs. Do the following to upgrade:
 ### Features
 
 * lang: Add `programdata_address: Option<Pubkey>` field to `Program` account. Will be populated if account is a program owned by the upgradable bpf loader ([#1125](https://github.com/project-serum/anchor/pull/1125))
-* lang,ts,ci,cli,docs: update solana toolchain to version 1.8.5([#1133](https://github.com/project-serum/anchor/pull/1133)).
+* lang,ts,ci,cli,docs: update safecoin toolchain to version 1.8.5([#1133](https://github.com/project-serum/anchor/pull/1133)).
 * lang: Account wrappers for non-Anchor programs no longer have to implement the `serialize` function because it has a default impl now. Similarly, they no longer have to implement `try_deserialize` which now delegates to `try_deserialize_unchecked` by default([#1156](https://github.com/project-serum/anchor/pull/1156)).
 * lang: Add `set_inner` method to `Account<'a, T>` to enable easy updates ([#1177](https://github.com/project-serum/anchor/pull/1177)).
 * lang: Handle arrays with const as length ([#968](https://github.com/project-serum/anchor/pull/968)).
@@ -218,7 +218,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 
 * lang: Add `ErrorCode::AccountNotInitialized` error to separate the situation when the account has the wrong owner from when it does not exist (#[1024](https://github.com/project-serum/anchor/pull/1024)).
 * lang: Called instructions now log their name by default. This can be turned off with the `no-log-ix-name` flag ([#1057](https://github.com/project-serum/anchor/pull/1057)).
-* lang: `ProgramData` and `UpgradableLoaderState` can now be passed into `Account` as generics. see [UpgradeableLoaderState](https://docs.rs/solana-program/latest/solana_program/bpf_loader_upgradeable/enum.UpgradeableLoaderState.html). `UpgradableLoaderState` can also be matched on to get `ProgramData`, but when `ProgramData` is used instead, anchor does the serialization and checking that it is actually program data for you  ([#1095](https://github.com/project-serum/anchor/pull/1095)).
+* lang: `ProgramData` and `UpgradableLoaderState` can now be passed into `Account` as generics. see [UpgradeableLoaderState](https://docs.rs/safecoin-program/latest/safecoin_program/bpf_loader_upgradeable/enum.UpgradeableLoaderState.html). `UpgradableLoaderState` can also be matched on to get `ProgramData`, but when `ProgramData` is used instead, anchor does the serialization and checking that it is actually program data for you  ([#1095](https://github.com/project-serum/anchor/pull/1095)).
 * ts: Add better error msgs in the ts client if something wrong (i.e. not a pubkey or a string) is passed in as an account in an instruction accounts object ([#1098](https://github.com/project-serum/anchor/pull/1098)).
 * ts: Add inputs `postInstructions` and `preInstructions` as a replacement for (the now deprecated) `instructions` ([#1007](https://github.com/project-serum/anchor/pull/1007)).
 * ts: Add `getAccountInfo` helper method to account namespace/client ([#1084](https://github.com/project-serum/anchor/pull/1084)).
@@ -250,14 +250,14 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 
 ### Features
 
-* cli: Add support for configuration options for `solana-test-validator` in Anchor.toml ([#834](https://github.com/project-serum/anchor/pull/834)).
+* cli: Add support for configuration options for `safecoin-test-validator` in Anchor.toml ([#834](https://github.com/project-serum/anchor/pull/834)).
 * cli: `target/types` directory now created on build to store a TypeScript types file for each program's IDL ([#795](https://github.com/project-serum/anchor/pull/795)).
 * ts: `Program<T>` can now be typed with an IDL type ([#795](https://github.com/project-serum/anchor/pull/795)).
 * lang: Add `mint::freeze_authority` keyword for mint initialization within `#[derive(Accounts)]` ([#835](https://github.com/project-serum/anchor/pull/835)).
 * lang: Add `AccountLoader` type for `zero_copy` accounts with support for CPI ([#792](https://github.com/project-serum/anchor/pull/792)).
 * lang: Add `#[account(init_if_needed)]` keyword for allowing one to invoke the same instruction even if the account was created already ([#906](https://github.com/project-serum/anchor/pull/906)).
 * lang: Add custom errors support for raw constraints ([#905](https://github.com/project-serum/anchor/pull/905)).
-* lang, cli, spl: Update solana toolchain to v1.8.0 ([#886](https://github.com/project-serum/anchor/pull/886)).
+* lang, cli, spl: Update safecoin toolchain to v1.8.0 ([#886](https://github.com/project-serum/anchor/pull/886)).
 * lang: Add custom errors support for `signer`, `mut`, `has_one`, `owner`, raw constraints and `address` ([#905](https://github.com/project-serum/anchor/pull/905), [#913](https://github.com/project-serum/anchor/pull/913)).
 
 ### Breaking
@@ -268,7 +268,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 
 ### Features
 
-* cli: Add `localnet` command for starting a local `solana-test-validator` with the workspace deployed ([#820](https://github.com/project-serum/anchor/pull/820)).
+* cli: Add `localnet` command for starting a local `safecoin-test-validator` with the workspace deployed ([#820](https://github.com/project-serum/anchor/pull/820)).
 
 ### Breaking
 
@@ -326,7 +326,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 * lang: Add constraints for initializing mint accounts as pdas, `#[account(init, seeds = [...], mint::decimals = <expr>, mint::authority = <expr>)]` ([#562](https://github.com/project-serum/anchor/pull/562)).
 * lang: Add `AsRef<AccountInfo>` for `AccountInfo` wrappers ([#652](https://github.com/project-serum/anchor/pull/652)).
 * lang: Optimize `trait Key` by removing `AccountInfo` cloning ([#652](https://github.com/project-serum/anchor/pull/652)).
-* cli, client, lang: Update solana toolchain to v1.7.11 ([#653](https://github.com/project-serum/anchor/pull/653)).
+* cli, client, lang: Update safecoin toolchain to v1.7.11 ([#653](https://github.com/project-serum/anchor/pull/653)).
 
 ### Breaking Changes
 
@@ -363,7 +363,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 * cli: Adds the `anchor login <api-token>` command ([#570](https://github.com/project-serum/anchor/pull/570)).
 * cli: Adds the `anchor publish <package>` command ([#570](https://github.com/project-serum/anchor/pull/570)).
 * cli: Adds a root level `anchor_version` field to the Anchor.toml for specifying the anchor docker image to use for verifiable builds ([#570](https://github.com/project-serum/anchor/pull/570)).
-* cli: Adds a root level `solana_version` field to the Anchor.toml for specifying the solana toolchain to use for verifiable builds ([#570](https://github.com/project-serum/anchor/pull/570)).
+* cli: Adds a root level `safecoin_version` field to the Anchor.toml for specifying the safecoin toolchain to use for verifiable builds ([#570](https://github.com/project-serum/anchor/pull/570)).
 * lang: Dynamically fetch rent sysvar for when using `init` ([#587](https://github.com/project-serum/anchor/pull/587)).
 
 ### Breaking
@@ -444,7 +444,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 
 * cli: Add `--program-name` option for build command to build a single program at a time ([#362](https://github.com/project-serum/anchor/pull/362)).
 * cli, client: Parse custom cluster urls from str ([#369](https://github.com/project-serum/anchor/pull/369)).
-* cli, client, lang: Update solana toolchain to v1.7.1 ([#368](https://github.com/project-serum/anchor/pull/369)).
+* cli, client, lang: Update safecoin toolchain to v1.7.1 ([#368](https://github.com/project-serum/anchor/pull/369)).
 * ts: Instruction decoding and formatting ([#372](https://github.com/project-serum/anchor/pull/372)).
 * lang: Add `#[account(close = <destination>)]` constraint for closing accounts and sending the rent exemption lamports to a specified destination account ([#371](https://github.com/project-serum/anchor/pull/371)).
 
@@ -518,7 +518,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 * lang: Allows one to specify multiple `with` targets when creating associated acconts ([#197](https://github.com/project-serum/anchor/pull/197)).
 * lang, ts: Add array support ([#202](https://github.com/project-serum/anchor/pull/202)).
 * lang: Zero copy deserialization for accounts ([#202](https://github.com/project-serum/anchor/pull/202), [#206](https://github.com/project-serum/anchor/pull/206)).
-* lang, spl, cli, client: Upgrade solana toolchain to 1.6.6 ([#210](https://github.com/project-serum/anchor/pull/210)).
+* lang, spl, cli, client: Upgrade safecoin toolchain to 1.6.6 ([#210](https://github.com/project-serum/anchor/pull/210)).
 
 ## [0.4.3] - 2021-04-13
 
@@ -558,7 +558,7 @@ Deprecated account types are no longer imported by the prelude ([#1208](https://
 
 * client: Replace url str with `Cluster` struct when constructing clients ([#89](https://github.com/project-serum/anchor/pull/89)).
 * lang: Changes the account discriminator of `IdlAccount` to be namespaced by `"internal"` ([#128](https://github.com/project-serum/anchor/pull/128)).
-* lang, spl, cli: Upgrade solana toolchain to 1.6.3, a major version upgrade even though only the minor version is incremented. This allows for the removal of `-#![feature(proc_macro_hygiene)]`. ([#139](https://github.com/project-serum/anchor/pull/139)).
+* lang, spl, cli: Upgrade safecoin toolchain to 1.6.3, a major version upgrade even though only the minor version is incremented. This allows for the removal of `-#![feature(proc_macro_hygiene)]`. ([#139](https://github.com/project-serum/anchor/pull/139)).
 
 ## [0.3.0] - 2021-03-12
 

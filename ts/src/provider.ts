@@ -10,7 +10,7 @@ import {
   SendTransactionError,
   SendOptions,
   RpcResponseAndContext,
-} from "@solana/web3.js";
+} from "@safecoin/web3.js";
 import { bs58 } from "./utils/bytes/index.js";
 import { isBrowser } from "./utils/common.js";
 import {

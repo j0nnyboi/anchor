@@ -86,7 +86,7 @@ mints: { ${mints} },
 
 async function genesis(provider) {
   if (
-    provider.connection._rpcEndpoint === "https://api.mainnet-beta.solana.com"
+    provider.connection._rpcEndpoint === "https://api.mainnet-beta.safecoin.com"
   ) {
     return {
       srm: {
